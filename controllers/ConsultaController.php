@@ -69,23 +69,23 @@ class ConsultaController extends Controller
         $model = new ConsultaModel();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-
+            
             $model->documento = UploadedFile::getInstance($model, 'documento');
-            if($model->documento != null) {
-                $arquivo = $model->titulares . '_' . $model->idConsulta;
-                $model->documento->saveAs('repositorio/' . $arquivo . '.' . $model->documento->extension);
-                $model->url = 'repositorio/' . $arquivo . '.' . $model->documento->extension;
+            if($model->documento!=null){
+                $arquivo = $model->titulares.'_'.$model->idConsulta;
+                $model->documento->saveAs('repositorio/'.$arquivo.'.'.$model->documento->extension);
+                $model->documento = $arquivo.'.'.$model->documento->extension;
             }
             $model->save();
 
             return $this->redirect(['view', 'id' => $model->idConsulta]);
-        }
+        }else{
 
         return $this->render('create', [
             'model' => $model,
             
         ]);
+        }
     }
 
     /**
@@ -100,12 +100,12 @@ class ConsultaController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
+            
             $model->documento = UploadedFile::getInstance($model, 'documento');
-            if($model->documento != null) {
-                $arquivo = $model->titulares . '_' . $model->idConsulta;
-                $model->documento->saveAs('repositorio/' . $arquivo . '.' . $model->documento->extension);
-                $model->url = 'repositorio/' . $arquivo . '.' . $model->documento->extension;
+            if($model->documento!=null){
+                $arquivo = $model->titulares.'_'.$model->idConsulta;
+                $model->documento->saveAs('repositorio/'.$arquivo.'.'.$model->documento->extension);
+                $model->documento = $arquivo.'.'.$model->documento->extension;
             }
             $model->save();
 
@@ -132,10 +132,11 @@ class ConsultaController extends Controller
     }
     
     
-    public function actionDonwload($id)
+    public function actionDownload($id)
     {
       
         $model = $this->findModel($id);
+
         if($model->documento!=null){
             $local =  YII::getAlias('@webroot').'/repositorio/';
             //echo "$local";
@@ -144,11 +145,11 @@ class ConsultaController extends Controller
             if(file_exists($arquivo)){
                 YII::$app->response->sendFile($arquivo);
             }else{
-                throw new NotFoundHttpException('Arquivo não encontrado: '.$nome);
+                throw new \yii\web\NotFoundHttpException('Arquivo não encontrado: '.$nome);
                 }
                 
         }else {
-            throw new NotFoundHttpException('Não há arquivos para download:');
+            throw new \yii\web\NotFoundHttpException('Não há arquivos para download:');
         }
     }
 

@@ -41,7 +41,7 @@ class ConsultaModel extends \yii\db\ActiveRecord
             [['idFundo'], 'integer'],
             [['caixa', 'data'], 'string', 'max' => 50],
             [['tipoDeDocumento'], 'string', 'max' => 100],
-            [['titulares', 'documento'], 'string', 'max' => 250],
+            [['titulares', 'url','documento'], 'string', 'max' => 250],
             [['descricao'], 'string', 'max' => 600],
             [['idFundo'], 'exist', 'skipOnError' => true, 'targetClass' => FundoModel::className(), 'targetAttribute' => ['idFundo' => 'idFundo']],
         ];
@@ -60,7 +60,7 @@ class ConsultaModel extends \yii\db\ActiveRecord
             'tipoDeDocumento' => 'Tipo De Documento',
             'titulares' => 'Titulares',
             'descricao' => 'Descricao',
-            'documento' => 'Documento',
+            'url' => 'Documento',
         ];
     }
 
